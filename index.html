@@ -1,1921 +1,575 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
 
-<body style="margin:0;padding:0;">
+
+
+
 <div id="ugcC">
-<style type="text/css">
-#ugcC{
-  max-width:820px;
-  margin:6px auto;
-  font-family:Arial,sans-serif;
-  color:#172033;
-}
-#ugcC *{box-sizing:border-box;}
-.box{
-  background:linear-gradient(135deg,#061b3d,#0754c9,#7026d9);
-  border-radius:18px;
-  padding:11px;
-  box-shadow:0 8px 25px #0003;
-}
-.top{text-align:center;color:#fff;}
-.tag{display:inline-block;background:#ffc107;color:#111;padding:5px 12px;border-radius:18px;font-size:11px;font-weight:900;}
-.title{font-size:24px;font-weight:900;margin:5px 0 3px;line-height:1.05;}
-.sub{font-size:13px;margin:0;font-weight:900;}
-.hook{color:#ffc107;font-size:10px;font-weight:900;margin-top:4px;}
-.hook.white{color:#fff;}
-.steps{display:flex;gap:5px;margin:7px auto;max-width:520px;}
-.step{flex:1;text-align:center;padding:6px;border-radius:7px;background:#ffffff1c;color:#dbeafe;font-size:9px;font-weight:900;}
-.step.active{background:#ffc107;color:#111;}
-.step.done{background:#22c55e;color:#fff;}
-.panel{background:#fff;border-radius:13px;padding:9px;min-height:360px;}
-.status{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:7px;}
-.badge,.count{padding:6px 9px;border-radius:7px;font-size:10px;font-weight:900;}
-.badge{background:#eef2ff;color:#3730a3;}
-.count{background:#fff7ed;color:#c2410c;}
-.game{display:flex;align-items:center;justify-content:center;gap:16px;min-height:325px;}
-.wheelSide{width:37%;text-align:center;transition:.45s;}
-.choiceSide{width:63%;display:none;}
-.pointer{width:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:15px solid #ffc107;margin:auto;}
-.circle{
-  width:175px;height:175px;margin:3px auto;border-radius:50%;border:7px solid #fff;
-  background:conic-gradient(
-    #ff6b6b 0 36deg,
-    #ff9f43 36deg 72deg,
-    #feca57 72deg 108deg,
-    #1dd1a1 108deg 144deg,
-    #48dbfb 144deg 180deg,
-    #54a0ff 180deg 216deg,
-    #5f27cd 216deg 252deg,
-    #c56cf0 252deg 288deg,
-    #ff6b81 288deg 324deg,
-    #00d2d3 324deg
-  );
-  display:flex;align-items:center;justify-content:center;cursor:pointer;
-  box-shadow:0 8px 20px #0003;
-  transition:transform 1.1s cubic-bezier(.17,.67,.12,1);
-}
-.inner{
-  width:100px;height:100px;border-radius:50%;background:#fff;
-  display:flex;align-items:center;justify-content:center;text-align:center;
-  font-size:14px;font-weight:900;line-height:1.05;
-}
-.spin{
-  width:100%;border:0;border-radius:8px;padding:11px;
-  background:linear-gradient(90deg,#ffb300,#ff7a00,#ec4899);
-  color:#fff;font-size:12px;font-weight:900;cursor:pointer;
-}
-.spin:disabled{opacity:.5;cursor:not-allowed;}
-.hint{text-align:center;font-size:8px;color:#64748b;margin-top:4px;font-weight:700;}
-.choiceTitle{font-size:20px;font-weight:900;margin-bottom:3px;color:#172033;}
-.choiceSub{font-size:10px;color:#64748b;font-weight:700;margin-bottom:9px;}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
-.chap{
-  border:1px solid #d5deeb;background:#f8fafc;border-radius:8px;
-  padding:11px 10px;min-height:48px;text-align:left;font-size:11px;
-  line-height:1.2;font-weight:900;cursor:pointer;color:#172033;transition:.2s;
-}
-.chap:hover{background:#f5f3ff;border-color:#6366f1;transform:translateY(-1px);}
-.chap.done{background:#ecfdf5;border-color:#86efac;color:#64748b;cursor:not-allowed;}
-.qbox{background:#f8fbff;border:1px solid #cfe0f8;border-radius:10px;padding:12px;}
-.chosen{display:inline-block;background:#ede9fe;color:#5b21b6;padding:6px 9px;border-radius:6px;font-size:9px;font-weight:900;}
-.q{font-size:17px;line-height:1.35;font-weight:900;margin:9px 0 10px;}
-.opts{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
-.opt{
-  border:1px solid #d2dce9;background:#fff;border-radius:8px;padding:10px;
-  min-height:42px;text-align:left;font-size:11px;line-height:1.25;font-weight:800;
-  cursor:pointer;transition:.2s;
-}
-.opt:hover{background:#f5f3ff;border-color:#6366f1;}
-.opt:disabled{cursor:not-allowed;}
-.lock{margin-top:10px;padding:10px;text-align:center;background:#f8fafc;border:1px solid #dbe4f0;border-radius:9px;}
-.answerResult{display:block;margin-top:8px;padding:9px;border-radius:8px;font-size:11px;font-weight:900;line-height:1.4;}
-.answerResult.correct{background:#dcfce7;border:1px solid #86efac;color:#166534;}
-.answerResult.wrong{background:#fee2e2;border:1px solid #fca5a5;color:#991b1b;}
-.explanation{margin-top:7px;background:#fff;border:1px solid #e2e8f0;border-radius:7px;padding:8px;text-align:left;font-size:9px;color:#475569;line-height:1.45;}
-.explanation strong{color:#172033;}
-.nextBtn{
-  display:block;width:100%;border:0;padding:10px;margin-top:9px;border-radius:8px;
-  font-size:10px;font-weight:900;cursor:pointer;
-  background:linear-gradient(90deg,#2563eb,#7c3aed);color:#fff;
-}
-.answerPopup{
-  position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;
-  background:rgba(6,27,61,.72);padding:20px;
-}
-.popupCard{
-  width:100%;max-width:360px;background:#fff;border-radius:18px;padding:25px 20px;
-  text-align:center;box-shadow:0 20px 60px #0006;animation:popupIn .25s ease-out;
-}
-.popupIcon{font-size:45px;margin-bottom:5px;}
-.popupTitle{font-size:25px;font-weight:900;color:#172033;}
-.popupText{font-size:12px;color:#475569;font-weight:700;margin:6px 0 14px;line-height:1.4;}
-.popupBtn{
-  width:100%;border:0;padding:11px;border-radius:8px;
-  background:linear-gradient(90deg,#2563eb,#7c3aed);color:#fff;font-size:11px;font-weight:900;cursor:pointer;
-}
-@keyframes popupIn{
-  from{opacity:0;transform:scale(.85);}
-  to{opacity:1;transform:scale(1);}
-}
-
-
-/* ===============================
-   FIREWORKS
-=============================== */
-
-
-#fireworkOverlay{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:99998;
-  overflow:hidden;
-}
-
-
-.firework{
-  position:absolute;
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  animation:fireworkBurst 1.5s ease-out forwards;
-}
-
-
-@keyframes fireworkBurst{
-  0%{
-    opacity:1;
-    transform:translate(0,0) scale(1);
-  }
-  70%{
-    opacity:1;
-  }
-  100%{
-    opacity:0;
-    transform:translate(var(--x),var(--y)) scale(.3);
-  }
-}
-
-
-.final{
-  display:none;width:100%;min-height:325px;
-  background:linear-gradient(135deg,#fff7ed,#fdf2f8,#f5f3ff);
-  border:2px solid #f59e0b;border-radius:10px;padding:25px;text-align:center;
-  align-items:center;justify-content:center;flex-direction:column;
-}
-.finalIcon{font-size:40px;margin-bottom:5px;}
-.final h3{margin:3px 0 8px;font-size:27px;line-height:1.1;font-weight:900;color:#172033;}
-.final p{font-size:12px;line-height:1.5;color:#475569;max-width:580px;margin:0 auto 12px;}
-.reward{
-  width:100%;max-width:600px;background:#fff;border-radius:9px;padding:12px;
-  font-size:10px;line-height:1.7;font-weight:800;box-shadow:0 3px 10px #0001;
-}
-.final a{
-  display:block;width:100%;max-width:600px;margin-top:12px;padding:12px;border-radius:8px;
-  text-decoration:none;font-size:11px;font-weight:900;
-  background:linear-gradient(90deg,#ffc107,#ff7a00,#ec4899);color:#111;
-}
-.bottom{text-align:center;color:#dbeafe;font-size:8px;font-weight:800;margin-top:5px;}
-
-
-@media(max-width:650px){
-  #ugcC{max-width:100%;}
-  .box{padding:7px;}
-  .tag{font-size:9px;}
-  .title{font-size:18px;}
-  .sub{font-size:10px;}
-  .hook{font-size:7px;}
-  .steps{gap:3px;}
-  .step{font-size:7px;padding:5px 2px;}
-  .panel{padding:6px;min-height:300px;}
-  .game{gap:7px;min-height:275px;}
-  .wheelSide{width:36%;}
-  .choiceSide{width:64%;}
-  .circle{width:120px;height:120px;}
-  .inner{width:72px;height:72px;font-size:10px;}
-  .spin{font-size:8px;padding:8px;}
-  .choiceTitle{font-size:14px;}
-  .choiceSub{font-size:8px;}
-  .grid{gap:4px;}
-  .chap{padding:8px;min-height:40px;font-size:8px;}
-  .q{font-size:12px;}
-  .opts{grid-template-columns:1fr;}
-  .opt{font-size:9px;padding:8px;}
-  .answerResult{font-size:9px;}
-  .explanation{font-size:8px;}
-  .final{min-height:275px;padding:15px;}
-  .final h3{font-size:20px;}
-  .popupCard{max-width:310px;padding:20px 15px;}
-  .popupTitle{font-size:21px;}
+<style>
+#ugcC{max-width:820px;margin:8px auto;font-family:Arial,sans-serif;color:#172033}
+#ugcC *{box-sizing:border-box}
+#ugcC .box{background:linear-gradient(135deg,#061b3d,#0754c9,#7026d9);border-radius:18px;padding:12px;box-shadow:0 8px 25px #0003}
+#ugcC .top{text-align:center;color:#fff}
+#ugcC .tag{display:inline-block;background:#ffc107;color:#111;padding:5px 12px;border-radius:18px;font-size:11px;font-weight:900}
+#ugcC .title{font-size:23px;font-weight:900;margin:6px 0;line-height:1.15}
+#ugcC .sub{font-size:12px;margin:0;font-weight:700}
+#ugcC .steps{display:flex;gap:5px;margin:9px auto;max-width:520px}
+#ugcC .step{flex:1;text-align:center;padding:7px;border-radius:7px;background:#ffffff1c;color:#dbeafe;font-size:10px;font-weight:900}
+#ugcC .step.active{background:#ffc107;color:#111}
+#ugcC .step.done{background:#22c55e;color:#fff}
+#ugcC .panel{background:#fff;border-radius:13px;padding:12px;min-height:300px}
+#ugcC .status{display:flex;justify-content:space-between;gap:8px;margin-bottom:10px}
+#ugcC .badge,#ugcC .count{padding:6px 9px;border-radius:7px;font-size:10px;font-weight:900}
+#ugcC .badge{background:#eef2ff;color:#3730a3}
+#ugcC .count{background:#fff7ed;color:#c2410c}
+#ugcC .game{display:flex;gap:14px;align-items:center;min-height:275px}
+#ugcC .wheelSide{width:36%;text-align:center}
+#ugcC .choiceSide{width:64%;display:none}
+#ugcC .pointer{width:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:15px solid #ffc107;margin:auto}
+#ugcC .circle{width:160px;height:160px;margin:4px auto;border-radius:50%;border:6px solid #fff;background:conic-gradient(#ff6b6b 0 36deg,#ff9f43 36deg 72deg,#feca57 72deg 108deg,#1dd1a1 108deg 144deg,#48dbfb 144deg 180deg,#54a0ff 180deg 216deg,#5f27cd 216deg 252deg,#c56cf0 252deg 288deg,#ff6b81 288deg 324deg,#00d2d3 324deg);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 20px #0003;transition:transform 1.1s cubic-bezier(.17,.67,.12,1)}
+#ugcC .inner{width:90px;height:90px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;text-align:center;font-size:13px;font-weight:900}
+#ugcC button{font-family:inherit}
+#ugcC .spin,#ugcC .primary{width:100%;border:0;border-radius:8px;padding:11px;background:linear-gradient(90deg,#ffb300,#ff7a00);color:#111;font-size:12px;font-weight:900;cursor:pointer}
+#ugcC button:disabled{opacity:.55;cursor:not-allowed}
+#ugcC .hint{text-align:center;font-size:9px;color:#64748b;margin-top:5px}
+#ugcC .choiceTitle{font-size:18px;font-weight:900;margin-bottom:4px}
+#ugcC .choiceSub{font-size:11px;color:#64748b;margin-bottom:9px}
+#ugcC .grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+#ugcC .chap,#ugcC .opt{border:1px solid #d5deeb;background:#f8fafc;border-radius:8px;padding:10px;text-align:left;font-size:11px;line-height:1.3;font-weight:800;cursor:pointer;color:#172033}
+#ugcC .qbox{background:#f8fbff;border:1px solid #cfe0f8;border-radius:10px;padding:12px}
+#ugcC .chosen{display:inline-block;background:#ede9fe;color:#5b21b6;padding:6px 9px;border-radius:6px;font-size:10px;font-weight:900}
+#ugcC .q{font-size:16px;line-height:1.35;font-weight:900;margin:10px 0}
+#ugcC .opts{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+#ugcC .opt{background:#fff}
+#ugcC .result{margin-top:9px;padding:10px;border-radius:8px;font-size:11px;font-weight:800;line-height:1.5}
+#ugcC .correct{background:#dcfce7;color:#166534}
+#ugcC .wrong{background:#fee2e2;color:#991b1b}
+#ugcC .next{width:100%;border:0;padding:10px;margin-top:9px;border-radius:8px;background:linear-gradient(90deg,#2563eb,#7c3aed);color:#fff;font-size:11px;font-weight:900;cursor:pointer}
+#ugcC .final{display:none;min-height:330px;background:#f8fafc;border:2px solid #ffc107;border-radius:12px;padding:22px;text-align:left}
+#ugcC .final h3{font-size:24px;margin:5px 0 8px}
+#ugcC .final p{font-size:12px;line-height:1.5;color:#475569}
+#ugcC .formgrid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}
+#ugcC label{font-size:11px;font-weight:900;display:block;margin-bottom:5px}
+#ugcC input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:8px;font-size:14px;background:#fff}
+#ugcC .consent{display:flex;align-items:flex-start;gap:8px;font-size:10px;color:#475569;line-height:1.4}
+#ugcC .consent input{width:auto;margin-top:2px}
+#ugcC .message{font-size:12px;font-weight:800;margin-top:10px;line-height:1.5}
+#ugcC .download{display:none;margin-top:12px;text-align:center;padding:12px;border-radius:8px;background:#16a34a;color:#fff;text-decoration:none;font-weight:900;font-size:12px}
+#ugcC .fine{font-size:9px;color:#64748b;margin-top:10px;line-height:1.45}
+@media(max-width:600px){
+#ugcC .title{font-size:18px}
+#ugcC .panel{padding:7px}
+#ugcC .game{gap:7px}
+#ugcC .wheelSide{width:36%}
+#ugcC .choiceSide{width:64%}
+#ugcC .circle{width:115px;height:115px}
+#ugcC .inner{width:68px;height:68px;font-size:10px}
+#ugcC .grid,#ugcC .opts{grid-template-columns:1fr}
+#ugcC .q{font-size:13px}
+#ugcC .final{padding:14px}
 }
 </style>
 
 
+
+
 <div class="box">
+  <div class="top">
+    <span class="tag">UGC NET COMMERCE • FREE PRACTICE</span>
+    <div class="title">⚡ THINK YOU’RE UGC NET COMMERCE READY?</div>
+    <p class="sub">Complete 3 quick challenges, then register to get the complete Questions & Answers PDF.</p>
+  </div>
 
 
-<div class="top">
-<div class="title">⚡ THINK YOU’RE UGC NET COMMERCE READY? PROVE IT. ⚡</div>
-<p class="sub">🎁 3 FREE CHALLENGES — CAN YOU CRACK ALL 3? 🔥</p>
-<div class="hook">🎯 PYQ-STYLE • INSTANT ANSWERS → 🔓 SIGN UP FOR MORE! 🚀</div>
+
+
+  <div class="steps">
+    <div class="step active" id="ugcS1">ROUND 1</div>
+    <div class="step" id="ugcS2">ROUND 2</div>
+    <div class="step" id="ugcS3">ROUND 3</div>
+  </div>
+
+
+
+
+  <div class="panel">
+    <div class="status" id="ugcStatusBar">
+      <span class="badge" id="ugcStatus">⚡ CHALLENGE READY</span>
+      <span class="count" id="ugcCount">3 TRIES LEFT</span>
+    </div>
+
+
+
+
+    <div class="game" id="ugcGame">
+      <div class="wheelSide" id="ugcWheelSide">
+        <div class="pointer"></div>
+        <div class="circle" id="ugcWheel">
+          <div class="inner">CLICK<br>TO<br>SPIN</div>
+        </div>
+        <button class="spin" id="ugcSpin" type="button">🎡 SPIN & PICK</button>
+        <div class="hint">One spin = one free challenge.</div>
+      </div>
+
+
+
+
+      <div class="choiceSide" id="ugcChoice">
+        <div id="ugcChapterArea">
+          <div class="choiceTitle">🎯 PICK YOUR CHAPTER</div>
+          <div class="choiceSub">Choose a chapter for your challenge.</div>
+          <div class="grid" id="ugcGrid"></div>
+        </div>
+
+
+
+
+        <div id="ugcQuestionArea" style="display:none">
+          <div class="qbox">
+            <div class="chosen" id="ugcChosen"></div>
+            <div class="q" id="ugcQ"></div>
+            <div class="opts" id="ugcOpts"></div>
+            <div id="ugcFeedback"></div>
+            <button class="next" id="ugcNext" style="display:none" type="button">CONTINUE →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <div class="final" id="ugcFinal">
+      <span class="tag">STUDENT RESOURCE ACCESS</span>
+      <h3>Get the Complete Questions & Answers PDF</h3>
+      <p>Enter your details below. After registration, you can access the downloadable UGC NET Commerce practice file.</p>
+
+
+
+
+      <form id="ugcLeadForm">
+        <div class="formgrid">
+          <div>
+            <label for="ugcName">FULL NAME *</label>
+            <input id="ugcName" name="name" autocomplete="name" placeholder="e.g. Rahul Sharma" required maxlength="100">
+          </div>
+
+
+
+
+          <div>
+            <label for="ugcMobile">MOBILE NUMBER *</label>
+            <input id="ugcMobile" name="mobile" autocomplete="tel" inputmode="numeric" placeholder="10-digit mobile number" pattern="[6-9][0-9]{9}" required maxlength="10">
+          </div>
+
+
+
+
+          <div>
+            <label for="ugcEmail">EMAIL ADDRESS *</label>
+            <input id="ugcEmail" name="email" type="email" autocomplete="email" placeholder="e.g. rahul@example.com" required maxlength="150">
+          </div>
+
+
+
+
+          <label class="consent">
+            <input id="ugcConsent" type="checkbox" required>
+            <span>I agree that my details may be used to provide this study resource and related educational updates. *</span>
+          </label>
+
+
+
+
+          <button class="primary" id="ugcSubmit" type="submit">REGISTER & GET PDF →</button>
+        </div>
+      </form>
+
+
+
+
+      <div class="message" id="ugcMessage" role="status"></div>
+      <a class="download" id="ugcDownload" href="#" target="_blank" rel="noopener">⬇ DOWNLOAD QUESTIONS & ANSWERS PDF</a>
+      <div class="fine">Your registration details will be submitted to the connected Google Sheet. Please review your privacy notice and consent wording before publishing.</div>
+    </div>
+  </div>
 </div>
 
 
-<div class="steps">
-<div class="step active" id="s1">ROUND 1</div>
-<div class="step" id="s2">ROUND 2</div>
-<div class="step" id="s3">ROUND 3</div>
-</div>
-
-
-<div class="panel">
-
-
-<div class="status" id="statusBar">
-<span class="badge" id="status">⚡ CHALLENGE READY </span>
-<span class="count" id="count"> 3 TRIES LEFT </span>
-</div>
-
-
-<div class="game" id="game">
-
-
-<div class="wheelSide" id="wheelSide">
-
-
-<div class="pointer">&nbsp;</div>
-
-
-<div class="circle" id="wheel" onclick="spin()">
-<div class="inner">CLICK<br />TO<br />SPIN</div>
-</div>
-
-
-<button class="spin" fdprocessedid="0n7bds" id="spinBtn" onclick="spin()" type="button">
-🎡 SPIN &amp; PICK
-</button>
-
-
-<div class="hint">One spin = one free challenge.</div>
-
-
-</div>
-
-
-<div class="choiceSide" id="choiceSide">
-
-
-<div id="chapterArea">
-
-
-<div class="choiceTitle">🎯 PICK YOUR CHAPTER</div>
-
-
-<div class="choiceSub">
-Choose one chapter for your challenge.
-</div>
-
-
-<div class="grid" id="grid">&nbsp;</div>
-
-
-</div>
-
-
-<div id="questionArea" style="display:none">
-
-
-<div class="qbox">
-
-
-<div class="chosen" id="chosen">&nbsp;</div>
-
-
-<div class="q" id="q">&nbsp;</div>
-
-
-<div class="opts" id="opts">&nbsp;</div>
-
-
-<div class="lock" id="lock">&nbsp;</div>
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-<div class="final" id="final">
-
-
-<div class="finalIcon">🔥</div>
-
-
-<h3>
-3 CHALLENGES DOWN.<br />
-CAN YOU HANDLE MORE?
-</h3>
-
-
-<p>
-You’ve used all 3 free attempts. But this was only the warm-up.
-Sign up to tackle more UGC NET Commerce questions.
-</p>
-
-
-<div class="reward">
-🚀 <b>YOUR NEXT LEVEL IS WAITING</b><br />
-✓ More chapter-wise MCQs &nbsp; • &nbsp;
-✓ Detailed explanations &nbsp; • &nbsp;
-✓ PYQ-style practice &nbsp; • &nbsp;
-✓ Keep testing your score
-</div>
-
-
-<a href="https://testbook.com/pdf-viewer?u=cdn.testbook.com/1790143056295-UGC%20NET%20COMMERCE%20You%20Survived%20the%20Challenge%20%E2%80%94%20Now%20Check%20the%20Answers%21%20.pdf/1790143058.pdf">
-🚀 I WANT MORE CHALLENGES →
-</a>
-
-
-</div>
-
-
-</div>
-</div>
-
-
-<!-- FIREWORK OVERLAY -->
-<div id="fireworkOverlay"></div>
-
-
-<div class="answerPopup" id="answerPopup" style="display:none;">
-
-
-<div class="popupCard">
-
-
-<div class="popupIcon" id="popupIcon">🎉</div>
-
-
-<div class="popupTitle" id="popupTitle">
-CORRECT!
-</div>
-
-
-<div class="popupText" id="popupText">
-You cracked it!
-</div>
-
-
-<button class="popupBtn" onclick="closePopup()" type="button">
-LET'S GO →
-</button>
-
-
-</div>
-
-
-</div>
 
 
 <script>
+(function(){
+'use strict';
 
 
-/* =========================================
-   QUESTIONS
-========================================= */
 
 
-const data = [
-[
-"Business Environment & International Business",
-[
-["Which is a characteristic of the business environment?",["Static","Dynamic and complex","Fully controllable","Affects only large firms"],1,"Business environment is dynamic because it keeps changing and complex because several external factors operate simultaneously.","Business Environment – Nature and Characteristics","Remember: Dynamic + Complex + Uncertain + Interrelated."],
-["Which organisation deals primarily with international trade rules?",["WTO","WHO","ILO","UNDP"],0,"The World Trade Organization (WTO) provides the institutional framework for international trade and administers multilateral trade agreements.","International Business – WTO","Remember: WTO → International Trade."],
-["Fiscal policy mainly concerns:",["Taxation and government expenditure","Recruitment","Marketing","Production"],0,"Fiscal policy refers to government decisions relating mainly to taxation, public revenue and government expenditure.","Business Environment – Fiscal Policy","Remember: Fiscal Policy → Government Revenue + Government Expenditure."]
-]
-],
-[
-"Accounting & Auditing",
-[
-["Which concept assumes a business will continue in the foreseeable future?",["Matching","Going concern","Prudence","Realisation"],1,"The going concern concept assumes that a business will continue its operations for the foreseeable future rather than being forced to liquidate or significantly reduce operations.","Accounting Concepts – Going Concern","Remember: Going Concern → Continuity of Business."],
-["Depreciation represents:",["Increase in asset value","Systematic allocation of depreciable amount","Increase in revenue","Reduction in liabilities"],1,"Depreciation represents the systematic allocation of the depreciable amount of an asset over its useful life.","Accounting – Depreciation","Exam Trap: Do not simply define depreciation as a fall in market value."],
-["The primary purpose of an audit is to:",["Prepare books","Express an opinion on financial statements","Calculate sales","Prepare ads"],1,"The primary purpose of an audit is to enable the auditor to express an opinion on the financial statements based on audit evidence obtained.","Auditing – Purpose of Audit","Remember: Audit → Opinion on Financial Statements."]
-]
-],
-[
-"Business Economics",
-[
-["According to the law of demand, price and quantity demanded generally:",["Move together","Move inversely","Never change","Are unrelated"],1,"Other things remaining constant, price and quantity demanded generally have an inverse relationship.","Microeconomics – Law of Demand","Remember: Price ↑ → Quantity Demanded ↓."],
-["A market with a single seller is:",["Oligopoly","Monopoly","Perfect competition","Monopolistic competition"],1,"Monopoly is a market structure characterised by a single seller supplying the market.","Market Structure – Monopoly","Remember: Mono = One."],
-["Price elasticity of demand measures:",["Response of quantity demanded to price","Production change","Income change","Supply change"],0,"Price elasticity of demand measures the responsiveness of quantity demanded to a change in price.","Microeconomics – Price Elasticity of Demand","Formula: PED = % Change in Quantity Demanded ÷ % Change in Price."]
-]
-],
-[
-"Business Finance",
-[
-["Under Gordon Growth Model, intrinsic value is:",["D₁/(Ke−g)","D₀×(Ke−g)","D₁/(Ke+g)","D₀/(Ke+g)"],0,"Under the Gordon Growth Model, the intrinsic value of a share is calculated as V₀ = D₁/(Ke − g), where D₁ is the expected dividend next year, Ke is the required rate of return and g is the constant growth rate.","Financial Management – Gordon Growth Model","Exam Trap: The denominator is Ke − g, not g − Ke."],
-["If required return increases, intrinsic value generally:",["Increases","Decreases","Unchanged","Becomes zero"],1,"Under the Gordon Growth Model, an increase in the required rate of return increases the denominator Ke − g. Assuming other factors remain constant, this reduces intrinsic value.","Financial Management – Share Valuation","Remember: Ke ↑ → Intrinsic Value ↓."],
-["After-tax cost of debt is:",["Kd + tax","Kd × (1−tax)","Kd − tax","Kd ÷ tax"],1,"Interest on debt generally provides a tax shield. Therefore, the after-tax cost of debt is calculated as Kd × (1 − Tax Rate).","Financial Management – Cost of Debt","Remember: After-tax Cost of Debt = Kd(1 − T)."]
-]
-],
-[
-"Business Statistics & Research Methods",
-[
-["Which measure is most affected by extreme values?",["Median","Mode","Arithmetic Mean","Quartile"],2,"The arithmetic mean uses every observation in the dataset, so unusually high or low values can significantly affect it.","Statistics – Measures of Central Tendency","Remember: Mean is more sensitive to extreme values than median."],
-["A hypothesis stating no significant difference is:",["Alternative","Null","Directional","Causal"],1,"The null hypothesis generally states that there is no significant difference, relationship or effect, depending on the research context.","Research Methods – Hypothesis Testing","Remember: H₀ → Null Hypothesis."],
-["Pearson correlation ranges between:",["0 and 1","−1 and +1","−10 and +10","1 and 100"],1,"Pearson's correlation coefficient ranges from −1 to +1 and indicates the direction and strength of linear association.","Statistics – Correlation","Remember: −1 = perfect negative, 0 = no linear correlation, +1 = perfect positive."]
-]
-],
-[
-"Business Management & Human Resource Management",
-[
-["Which function decides what should be done and how?",["Planning","Controlling","Staffing","Directing"],0,"Planning involves deciding organisational objectives and determining in advance what should be done, how it should be done, when it should be done and by whom.","Management Functions – Planning","Remember: Planning = Deciding in Advance."],
-["Theory X and Theory Y were proposed by:",["Taylor","Douglas McGregor","Elton Mayo","Peter Drucker"],1,"Douglas McGregor proposed Theory X and Theory Y to describe contrasting assumptions about employees and their motivation.","Human Resource Management – Motivation","Remember: Theory X & Theory Y → Douglas McGregor."],
-["Performance appraisal primarily evaluates:",["Employee performance","Market share","Price","Capital structure"],0,"Performance appraisal is a systematic process of evaluating an employee's performance against relevant standards or expectations.","HRM – Performance Appraisal","Remember: Performance Appraisal → Employee Performance."]
-]
-],
-[
-"Banking & Financial Institutions",
-[
-["The central bank of India is:",["SBI","RBI","SEBI","NABARD"],1,"The Reserve Bank of India is India's central bank and performs key monetary and banking-system functions.","Banking – Central Banking","Remember: Central Bank of India → RBI."],
-["CRR is maintained by commercial banks with:",["SEBI","RBI","NABARD","Ministry of Finance"],1,"Under the Cash Reserve Ratio framework, commercial banks maintain the prescribed cash reserve with the Reserve Bank of India.","Banking – Cash Reserve Ratio","Remember: CRR → RBI."],
-["SEBI primarily regulates the:",["Insurance sector","Securities market","Agricultural sector","Foreign trade sector"],1,"The Securities and Exchange Board of India is the statutory regulator of India's securities market.","Financial Institutions – SEBI","Remember: SEBI → Securities Market."]
-]
-],
-[
-"Marketing Management",
-[
-["Traditional 4Ps are:",["Product, Price, Place, Promotion","People, Profit, Policy, Plan","Product, Profit, Place, Policy","Price, People, Plan, Promotion"],0,"The traditional marketing mix consists of Product, Price, Place and Promotion.","Marketing Mix – 4Ps","Remember: 4Ps = Product + Price + Place + Promotion."],
-["Market segmentation means:",["Increasing production","Dividing a market into groups","Reducing price","Eliminating competitors"],1,"Market segmentation involves dividing a broad market into relatively distinct groups of consumers based on relevant characteristics or needs.","Marketing – Market Segmentation","Remember: Segmentation = Dividing the Market."],
-["A brand primarily helps in:",["Identifying and differentiating a product","Calculating tax","Preparing budgets","Calculating depreciation"],0,"A brand helps identify a product or service and distinguish it from competing offerings.","Marketing – Branding","Remember: Brand → Identification + Differentiation."]
-]
-],
-[
-"Legal Aspects of Business",
-[
-["The Indian Contract Act was enacted in:",["1872","1956","2013","1947"],0,"The Indian Contract Act, 1872 provides the principal statutory framework governing contracts in India, subject to applicable amendments and other laws.","Business Law – Indian Contract Act","Remember: Indian Contract Act → 1872."],
-["A company is regarded in law as:",["A natural person","A separate legal entity","A partnership","A government department"],1,"A company incorporated under company law has a legal personality separate from its members.","Company Law – Separate Legal Entity","Remember: Company ≠ Members."],
-["A contract that ceases to be enforceable becomes:",["Void","Illegal","Valid","Executed"],0,"Under the Indian Contract Act, a contract that ceases to be enforceable by law becomes void.","Business Law – Void Contract","Exam Tip: Carefully distinguish void, voidable and illegal agreements."]
-]
-],
-[
-"Income Tax & Corporate Tax Planning",
-[
-["Income tax is classified as:",["Direct tax","Indirect tax","Customs duty","Excise duty"],0,"Income tax is imposed directly on the income of the taxpayer and is therefore classified as a direct tax.","Income Tax – Direct Tax","Remember: Income Tax → Direct Tax."],
-["Tax planning primarily involves:",["Tax evasion","Arranging affairs within the law to optimise tax liability","Ignoring records","Ignoring provisions"],1,"Tax planning involves arranging financial affairs within the applicable legal framework to achieve legitimate tax efficiency. It is distinct from tax evasion.","Tax Planning – Meaning","Remember: Tax Planning → Legal. Tax Evasion → Illegal."],
-["Residential status is relevant for determining:",["Tax incidence","Market demand","Share price","Production capacity"],0,"Residential status is an important factor in determining the scope of income that may be taxable in India under applicable income-tax provisions.","Income Tax – Residential Status","Remember: Residential Status → Tax Incidence."]
-]
-]
+const root=document.getElementById('ugcC');
+if(!root)return;
+const $=id=>root.querySelector('#'+id);
+
+
+
+
+/* REPLACE THESE TWO PLACEHOLDERS BEFORE PUBLISHING */
+const SHEETS_WEB_APP_URL='https://script.google.com/macros/s/AKfycbyL50246zkVhEKI9b18x16hM_1Qmnd0HDc7PHp8iLnm5fBbsVG5x_wsOFyzKJRH9b6gUw/exec';
+const PDF_URL='https://cdn.testbook.com/1791524503411-UGC%20NET%20You%20Survived%20the%20Challenge%20%E2%80%94%20Now%20Check%20the%20Answers%21%20.pdf/1791524503.pdf';
+
+
+
+
+const data=[
+["Business Environment & International Business",[
+["Which is a characteristic of the business environment?",["Static","Dynamic and complex","Fully controllable","Affects only large firms"],1,"The business environment is dynamic and complex because external factors change and interact."],
+["Which organisation deals primarily with international trade rules?",["WTO","WHO","ILO","UNDP"],0,"The World Trade Organization administers multilateral trade agreements and provides a forum for trade negotiations."],
+["Fiscal policy mainly concerns:",["Taxation and government expenditure","Recruitment","Marketing","Production"],0,"Fiscal policy concerns government revenue, taxation and expenditure."]]],
+["Accounting & Auditing",[
+["Which concept assumes a business will continue in the foreseeable future?",["Matching","Going concern","Prudence","Realisation"],1,"The going concern concept assumes the business will continue operating for the foreseeable future."],
+["Depreciation represents:",["Increase in asset value","Systematic allocation of depreciable amount","Increase in revenue","Reduction in liabilities"],1,"Depreciation allocates an asset’s depreciable amount over its useful life."],
+["The primary purpose of an audit is to:",["Prepare books","Express an opinion on financial statements","Calculate sales","Prepare ads"],1,"An audit enables an auditor to express an opinion on financial statements."]]],
+["Business Economics",[
+["According to the law of demand, price and quantity demanded generally:",["Move together","Move inversely","Never change","Are unrelated"],1,"Other things being equal, price and quantity demanded generally have an inverse relationship."],
+["A market with a single seller is:",["Oligopoly","Monopoly","Perfect competition","Monopolistic competition"],1,"A monopoly has a single seller supplying the market."],
+["Price elasticity of demand measures:",["Response of quantity demanded to price","Production change","Income change","Supply change"],0,"Price elasticity measures how responsive quantity demanded is to a price change."]]],
+["Business Finance",[
+["Under the Gordon Growth Model, intrinsic value is:",["D₁/(Ke−g)","D₀×(Ke−g)","D₁/(Ke+g)","D₀/(Ke+g)"],0,"The Gordon Growth Model is V₀ = D₁/(Ke − g), assuming constant dividend growth."],
+["If the required return increases, intrinsic value generally:",["Increases","Decreases","Remains unchanged","Becomes zero"],1,"With other factors constant, a higher required return reduces the share’s intrinsic value."],
+["After-tax cost of debt is:",["Kd + tax","Kd × (1−tax rate)","Kd − tax","Kd ÷ tax"],1,"The after-tax cost of debt is generally Kd × (1 − tax rate)."]]],
+["Business Statistics & Research Methods",[
+["Which measure is most affected by extreme values?",["Median","Mode","Arithmetic mean","Quartile"],2,"The arithmetic mean uses every observation and is sensitive to extreme values."],
+["A hypothesis stating no significant difference is:",["Alternative","Null","Directional","Causal"],1,"The null hypothesis commonly states that there is no significant difference or effect."],
+["Pearson correlation ranges between:",["0 and 1","−1 and +1","−10 and +10","1 and 100"],1,"Pearson’s correlation coefficient ranges from −1 to +1."]]],
+["Business Management & Human Resource Management",[
+["Which function decides what should be done and how?",["Planning","Controlling","Staffing","Directing"],0,"Planning determines objectives and how they should be achieved."],
+["Theory X and Theory Y were proposed by:",["Taylor","Douglas McGregor","Elton Mayo","Peter Drucker"],1,"Douglas McGregor proposed Theory X and Theory Y."],
+["Performance appraisal primarily evaluates:",["Employee performance","Market share","Price","Capital structure"],0,"Performance appraisal systematically evaluates employee performance against expectations."]]],
+["Banking & Financial Institutions",[
+["The central bank of India is:",["SBI","RBI","SEBI","NABARD"],1,"The Reserve Bank of India is India’s central bank."],
+["CRR is maintained by commercial banks with:",["SEBI","RBI","NABARD","Ministry of Finance"],1,"Under the CRR framework, banks maintain the prescribed cash reserve with RBI."],
+["SEBI primarily regulates the:",["Insurance sector","Securities market","Agricultural sector","Foreign trade sector"],1,"SEBI regulates India’s securities market."]]],
+["Marketing Management",[
+["Traditional 4Ps are:",["Product, Price, Place, Promotion","People, Profit, Policy, Plan","Product, Profit, Place, Policy","Price, People, Plan, Promotion"],0,"The traditional marketing mix consists of Product, Price, Place and Promotion."],
+["Market segmentation means:",["Increasing production","Dividing a market into groups","Reducing price","Eliminating competitors"],1,"Segmentation divides a broad market into groups with shared characteristics or needs."],
+["A brand primarily helps in:",["Identifying and differentiating a product","Calculating tax","Preparing budgets","Calculating depreciation"],0,"A brand identifies a product or service and differentiates it from competitors."]]],
+["Legal Aspects of Business",[
+["The Indian Contract Act was enacted in:",["1872","1956","2013","1947"],0,"The Indian Contract Act was enacted in 1872."],
+["A company is regarded in law as:",["A natural person","A separate legal entity","A partnership","A government department"],1,"An incorporated company has a legal personality separate from its members."],
+["A contract that ceases to be enforceable becomes:",["Void","Illegal","Valid","Executed"],0,"Under the Indian Contract Act, a contract that ceases to be enforceable by law becomes void."]]],
+["Income Tax & Corporate Tax Planning",[
+["Income tax is classified as:",["Direct tax","Indirect tax","Customs duty","Excise duty"],0,"Income tax is imposed directly on the taxpayer’s income."],
+["Tax planning primarily involves:",["Tax evasion","Arranging affairs within the law to optimise tax liability","Ignoring records","Ignoring provisions"],1,"Tax planning aims for legitimate tax efficiency within the law."],
+["Residential status is relevant for determining:",["Tax incidence","Market demand","Share price","Production capacity"],0,"Residential status helps determine the scope of income taxable in India."]]]
 ];
 
 
-/* =========================================
-   VARIABLES
-========================================= */
 
 
-let used = 0;
-let opened = [];
-let spinning = false;
-let questionActive = false;
-let currentQuestion = null;
+let used=0,opened=[],spinning=false,questionActive=false,current=null,answered=false;
 
 
 
 
-/* =========================================
-   SOUND EFFECTS
-========================================= */
+function setText(id,value){$(id).textContent=value}
 
 
-let audioCtx = null;
-
-
-function getAudio(){
-
-
-  if(!audioCtx){
-    audioCtx =
-      new (window.AudioContext ||
-      window.webkitAudioContext)();
-  }
-
-
-  if(audioCtx.state === "suspended"){
-    audioCtx.resume();
-  }
-
-
-  return audioCtx;
-}
-
-
-
-
-/* =========================================
-   CORRECT ANSWER SOUND
-   Happy 3-note celebration
-========================================= */
-
-
-function playClap(){
-
-
-  const ctx = getAudio();
-
-
-  const notes = [
-    523.25,
-    659.25,
-    783.99
-  ];
-
-
-  notes.forEach((freq,i)=>{
-
-
-    const osc =
-      ctx.createOscillator();
-
-
-    const gain =
-      ctx.createGain();
-
-
-    osc.type = "sine";
-
-
-    osc.frequency.value =
-      freq;
-
-
-    gain.gain.setValueAtTime(
-      0,
-      ctx.currentTime + i * 0.09
-    );
-
-
-    gain.gain.linearRampToValueAtTime(
-      0.18,
-      ctx.currentTime + i * 0.09 + 0.02
-    );
-
-
-    gain.gain.exponentialRampToValueAtTime(
-      0.001,
-      ctx.currentTime + i * 0.09 + 0.22
-    );
-
-
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-
-
-    osc.start(
-      ctx.currentTime + i * 0.09
-    );
-
-
-    osc.stop(
-      ctx.currentTime + i * 0.09 + 0.25
-    );
-
-
-  });
-
-
-}
-
-
-
-
-/* =========================================
-   WRONG ANSWER SOUND
-   Short OOPS
-========================================= */
-
-
-function playOops(){
-
-
-  const ctx = getAudio();
-
-
-  const notes = [
-    280,
-    210
-  ];
-
-
-  notes.forEach((freq,i)=>{
-
-
-    const osc =
-      ctx.createOscillator();
-
-
-    const gain =
-      ctx.createGain();
-
-
-    osc.type = "triangle";
-
-
-    osc.frequency.value =
-      freq;
-
-
-    gain.gain.setValueAtTime(
-      0.14,
-      ctx.currentTime + i * 0.16
-    );
-
-
-    gain.gain.exponentialRampToValueAtTime(
-      0.001,
-      ctx.currentTime + i * 0.16 + 0.28
-    );
-
-
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-
-
-    osc.start(
-      ctx.currentTime + i * 0.16
-    );
-
-
-    osc.stop(
-      ctx.currentTime + i * 0.16 + 0.3
-    );
-
-
-  });
-
-
-}
-
-
-
-
-/* =========================================
-   FINAL CELEBRATION MELODY
-========================================= */
-
-
-function playFinalSound(){
-
-
-  const ctx = getAudio();
-
-
-  const notes = [
-    523.25,
-    659.25,
-    783.99,
-    1046.50
-  ];
-
-
-  notes.forEach((freq,i)=>{
-
-
-    const osc =
-      ctx.createOscillator();
-
-
-    const gain =
-      ctx.createGain();
-
-
-    osc.type = "sine";
-
-
-    osc.frequency.value =
-      freq;
-
-
-    gain.gain.setValueAtTime(
-      0,
-      ctx.currentTime + i * 0.13
-    );
-
-
-    gain.gain.linearRampToValueAtTime(
-      0.2,
-      ctx.currentTime + i * 0.13 + 0.03
-    );
-
-
-    gain.gain.exponentialRampToValueAtTime(
-      0.001,
-      ctx.currentTime + i * 0.13 + 0.5
-    );
-
-
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-
-
-    osc.start(
-      ctx.currentTime + i * 0.13
-    );
-
-
-    osc.stop(
-      ctx.currentTime + i * 0.13 + 0.55
-    );
-
-
-  });
-
-
-}
-
-
-
-
-/* =========================================
-   FIREWORK SOUND
-========================================= */
-
-
-function playFirework(){
-
-
-  const ctx = getAudio();
-
-
-  const osc =
-    ctx.createOscillator();
-
-
-  const gain =
-    ctx.createGain();
-
-
-  osc.type = "sawtooth";
-
-
-  osc.frequency.setValueAtTime(
-    180,
-    ctx.currentTime
-  );
-
-
-  osc.frequency.exponentialRampToValueAtTime(
-    850,
-    ctx.currentTime + 0.35
-  );
-
-
-  gain.gain.setValueAtTime(
-    0.001,
-    ctx.currentTime
-  );
-
-
-  gain.gain.exponentialRampToValueAtTime(
-    0.15,
-    ctx.currentTime + 0.08
-  );
-
-
-  gain.gain.exponentialRampToValueAtTime(
-    0.001,
-    ctx.currentTime + 0.4
-  );
-
-
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-
-
-  osc.start();
-
-
-  osc.stop(
-    ctx.currentTime + 0.42
-  );
-
-
-
-
-  setTimeout(()=>{
-
-
-    const boom =
-      ctx.createOscillator();
-
-
-    const boomGain =
-      ctx.createGain();
-
-
-    boom.type = "sine";
-
-
-    boom.frequency.setValueAtTime(
-      110,
-      ctx.currentTime
-    );
-
-
-    boom.frequency.exponentialRampToValueAtTime(
-      45,
-      ctx.currentTime + 0.45
-    );
-
-
-    boomGain.gain.setValueAtTime(
-      0.25,
-      ctx.currentTime
-    );
-
-
-    boomGain.gain.exponentialRampToValueAtTime(
-      0.001,
-      ctx.currentTime + 0.5
-    );
-
-
-    boom.connect(boomGain);
-    boomGain.connect(ctx.destination);
-
-
-    boom.start();
-
-
-    boom.stop(
-      ctx.currentTime + 0.55
-    );
-
-
-  },350);
-
-
-}
-
-
-
-
-/* =========================================
-   FIREWORK VISUALS
-========================================= */
-
-
-function showFireworks(){
-
-
-  const overlay =
-    document.getElementById(
-      "fireworkOverlay"
-    );
-
-
-  if(!overlay){
-    return;
-  }
-
-
-  overlay.innerHTML = "";
-
-
-
-
-  for(
-    let burst = 0;
-    burst < 4;
-    burst++
-  ){
-
-
-    setTimeout(()=>{
-
-
-      const centerX =
-        15 + Math.random() * 70;
-
-
-      const centerY =
-        20 + Math.random() * 50;
-
-
-
-
-      for(
-        let i = 0;
-        i < 28;
-        i++
-      ){
-
-
-        const particle =
-          document.createElement("div");
-
-
-        particle.className =
-          "firework";
-
-
-        particle.style.left =
-          centerX + "%";
-
-
-        particle.style.top =
-          centerY + "%";
-
-
-
-
-        const angle =
-          (Math.PI * 2 * i) / 28;
-
-
-        const distance =
-          50 + Math.random() * 90;
-
-
-
-
-        particle.style.setProperty(
-          "--x",
-          Math.cos(angle) *
-          distance +
-          "px"
-        );
-
-
-        particle.style.setProperty(
-          "--y",
-          Math.sin(angle) *
-          distance +
-          "px"
-        );
-
-
-
-
-        particle.style.background = [
-          "#ff3b30",
-          "#ffc107",
-          "#00d2d3",
-          "#7c3aed",
-          "#22c55e",
-          "#ec4899"
-        ][
-          Math.floor(
-            Math.random() * 6
-          )
-        ];
-
-
-
-
-        overlay.appendChild(
-          particle
-        );
-
-
-      }
-
-
-
-
-      setTimeout(()=>{
-
-
-        overlay.innerHTML = "";
-
-
-      },1600);
-
-
-    },burst * 350);
-
-
-  }
-
-
-}
-
-
-
-
-/* =========================================
-   SPIN
-========================================= */
 
 
 function spin(){
+ if(questionActive||spinning||used>=3)return;
+ spinning=true;
+ $('ugcSpin').disabled=true;
+ setText('ugcStatus','🎡 SPINNING…');
+ $('ugcWheel').style.transform='rotate('+(1080+Math.floor(Math.random()*720))+'deg)';
 
 
-  if(questionActive){
-    return;
-  }
 
 
-  if(used >= 3){
-    showFinal();
-    return;
-  }
+ setTimeout(()=>{
+   spinning=false;
+   used++;
+   $('ugcWheel').style.transform='rotate(0deg)';
+   setText('ugcCount',(3-used)+' TRIES LEFT');
+   setText('ugcStatus','🔓 PICK YOUR CHAPTER');
 
 
-  if(spinning){
-    return;
-  }
 
 
-  spinning = true;
+   for(let n=1;n<=3;n++){
+     const s=$('ugcS'+n);
+     s.className='step '+(n<used+1?'done':n===used+1?'active':'');
+   }
 
 
-  const spinBtn =
-    document.getElementById("spinBtn");
 
 
-  const wheel =
-    document.getElementById("wheel");
-
-
-  const status =
-    document.getElementById("status");
-
-
-  spinBtn.disabled = true;
-
-
-  wheel.style.pointerEvents =
-    "none";
-
-
-  status.innerHTML =
-    "🎡 SPINNING...";
-
-
-  const rotation =
-    1080 +
-    Math.floor(
-      Math.random() * 720
-    );
-
-
-  wheel.style.transform =
-    `rotate(${rotation}deg)`;
-
-
-  setTimeout(()=>{
-
-
-    spinning = false;
-
-
-    used++;
-
-
-    wheel.style.transform =
-      "rotate(0deg)";
-
-
-    document
-      .getElementById("count")
-      .innerHTML =
-      (3-used) +
-      " TRIES LEFT";
-
-
-    status.innerHTML =
-      "🔓 PICK YOUR CHAPTER";
-
-
-    document
-      .querySelectorAll(".step")
-      .forEach((x,i)=>{
-
-
-        if(i < used){
-
-
-          x.className =
-            "step done";
-
-
-        }
-
-
-        else if(i === used){
-
-
-          x.className =
-            "step active";
-
-
-        }
-
-
-        else{
-
-
-          x.className =
-            "step";
-
-
-        }
-
-
-      });
-
-
-    document
-      .getElementById("wheelSide")
-      .style.transform =
-      "translateX(-18px) scale(.92)";
-
-
-    showChapters();
-
-
-  },1100);
-
-
+   $('ugcWheelSide').style.opacity='.7';
+   $('ugcChoice').style.display='block';
+   showChapters();
+ },900);
 }
 
 
-
-
-/* =========================================
-   CHAPTERS
-========================================= */
 
 
 function showChapters(){
-
-
-  const choiceSide =
-    document.getElementById("choiceSide");
-
-
-  const chapterArea =
-    document.getElementById("chapterArea");
-
-
-  const questionArea =
-    document.getElementById("questionArea");
-
-
-  const grid =
-    document.getElementById("grid");
-
-
-  choiceSide.style.display =
-    "block";
-
-
-  chapterArea.style.display =
-    "block";
-
-
-  questionArea.style.display =
-    "none";
-
-
-  grid.innerHTML = "";
-
-
-  document
-    .getElementById("spinBtn")
-    .disabled = true;
-
-
-  document
-    .getElementById("wheel")
-    .style.pointerEvents =
-    "none";
+ $('ugcChapterArea').style.display='block';
+ $('ugcQuestionArea').style.display='none';
+ $('ugcGrid').innerHTML='';
 
 
 
 
-  data.forEach((c,i)=>{
-
-
-    const b =
-      document.createElement("button");
-
-
-    b.type = "button";
-
-
-    b.className =
-      "chap";
-
-
-    b.innerHTML =
-      (opened.includes(i)
-        ? "✓ "
-        : "") +
-      c[0];
-
-
-    b.disabled =
-      opened.includes(i);
-
-
-
-
-    if(!b.disabled){
-
-
-      b.onclick =
-        ()=>openChapter(i);
-
-
-    }
-
-
-
-
-    grid.appendChild(b);
-
-
-  });
-
-
+ data.forEach((chapter,i)=>{
+   const b=document.createElement('button');
+   b.type='button';
+   b.className='chap';
+   b.textContent=(opened.includes(i)?'✓ ':'')+chapter[0];
+   b.disabled=opened.includes(i);
+   b.addEventListener('click',()=>openChapter(i));
+   $('ugcGrid').appendChild(b);
+ });
 }
 
 
-
-
-/* =========================================
-   OPEN CHAPTER
-========================================= */
 
 
 function openChapter(i){
+ if(opened.includes(i))return;
+ opened.push(i);
+ questionActive=true;
+ answered=false;
 
 
-  if(opened.includes(i)){
-    return;
-  }
 
 
-  opened.push(i);
+ const qs=data[i][1];
+ current=qs[Math.floor(Math.random()*qs.length)];
 
 
-  questionActive = true;
 
 
-  const chapter =
-    data[i];
+ $('ugcChosen').textContent='📚 '+data[i][0];
+ setText('ugcQ',current[0]);
+ $('ugcOpts').innerHTML='';
+ $('ugcFeedback').innerHTML='';
+ $('ugcNext').style.display='none';
 
 
-  const questions =
-    chapter[1];
 
 
-  const x =
-    questions[
-      Math.floor(
-        Math.random() *
-        questions.length
-      )
-    ];
+ current[1].forEach((o,n)=>{
+   const b=document.createElement('button');
+   b.type='button';
+   b.className='opt';
+   b.textContent=String.fromCharCode(65+n)+'. '+o;
+   b.addEventListener('click',()=>answer(n));
+   $('ugcOpts').appendChild(b);
+ });
 
 
-  currentQuestion = x;
 
 
-
-
-  document
-    .getElementById("chosen")
-    .innerHTML =
-    "📚 " + chapter[0];
-
-
-
-
-  document
-    .getElementById("q")
-    .innerHTML =
-    x[0];
-
-
-
-
-  const opts =
-    document.getElementById("opts");
-
-
-  opts.innerHTML = "";
-
-
-
-
-  document
-    .getElementById("lock")
-    .innerHTML = "";
-
-
-
-
-  x[1].forEach((o,n)=>{
-
-
-    const b =
-      document.createElement("button");
-
-
-    b.type = "button";
-
-
-    b.className =
-      "opt";
-
-
-    b.innerHTML =
-      String.fromCharCode(65+n) +
-      ". " + o;
-
-
-    b.onclick =
-      ()=>answer(n,x[2]);
-
-
-    opts.appendChild(b);
-
-
-  });
-
-
-
-
-  document
-    .getElementById("chapterArea")
-    .style.display =
-    "none";
-
-
-
-
-  document
-    .getElementById("questionArea")
-    .style.display =
-    "block";
-
-
-
-
-  document
-    .getElementById("status")
-    .innerHTML =
-    "🧠 SOLVE IT";
-
-
+ $('ugcChapterArea').style.display='none';
+ $('ugcQuestionArea').style.display='block';
+ setText('ugcStatus','🧠 SOLVE IT');
 }
 
 
 
 
-/* =========================================
-   ANSWER
-========================================= */
+function answer(selected){
+ if(answered)return;
+ answered=true;
 
 
-function answer(selected,correct){
 
 
-  const buttons =
-    document.querySelectorAll(".opt");
+ const correct=current[2];
+ const buttons=$('ugcOpts').querySelectorAll('button');
 
 
 
 
-  buttons.forEach(b=>{
-    b.disabled = true;
-  });
+ buttons.forEach((b,i)=>{
+   b.disabled=true;
+   if(i===correct){
+     b.style.background='#dcfce7';
+     b.style.borderColor='#22c55e';
+   }
+   if(i===selected&&i!==correct){
+     b.style.background='#fee2e2';
+     b.style.borderColor='#ef4444';
+   }
+ });
 
 
 
 
-  const isCorrect =
-    selected === correct;
+ const box=document.createElement('div');
+ box.className='result '+(selected===correct?'correct':'wrong');
+ box.textContent=(selected===correct?'✅ CORRECT! ':'❌ NOT THIS TIME. ')+
+   'Correct answer: '+String.fromCharCode(65+correct)+'. '+
+   current[1][correct]+' — '+current[3];
 
 
 
 
-  /* ===============================
-     SOUND EFFECT
-  =============================== */
-
-
-  if(isCorrect){
-
-
-    playClap();
-
-
-  }
-
-
-  else{
-
-
-    playOops();
-
-
-  }
-
-
-
-
-  const selectedLetter =
-    String.fromCharCode(
-      65 + selected
-    );
-
-
-
-
-  const correctLetter =
-    String.fromCharCode(
-      65 + correct
-    );
-
-
-
-
-  /* ===============================
-     COLOUR ANSWERS
-  =============================== */
-
-
-  buttons.forEach((b,i)=>{
-
-
-    if(i === correct){
-
-
-      b.style.background =
-        "#dcfce7";
-
-
-      b.style.borderColor =
-        "#22c55e";
-
-
-      b.style.color =
-        "#166534";
-
-
-    }
-
-
-
-
-    if(i === selected && !isCorrect){
-
-
-      b.style.background =
-        "#fee2e2";
-
-
-      b.style.borderColor =
-        "#ef4444";
-
-
-      b.style.color =
-        "#991b1b";
-
-
-    }
-
-
-  });
-
-
-
-
-  /* ===============================
-     CORRECT
-  =============================== */
-
-
-  if(isCorrect){
-
-
-    document
-      .getElementById("lock")
-      .innerHTML = `
-
-
-        <div class="answerResult correct">
-
-
-          🟢 CORRECT!
-
-
-          <br>
-
-
-          <small>
-            You chose ${selectedLetter}. Nailed it! 🎯
-          </small>
-
-
-          <div class="explanation">
-
-
-            <strong>Why?</strong><br>
-
-
-            ${currentQuestion[3]}
-
-
-            <br><br>
-
-
-            <strong>Exam Tip:</strong><br>
-
-
-            ${currentQuestion[5]}
-
-
-          </div>
-
-
-        </div>
-
-
-      `;
-
-
-
-
-    document
-      .getElementById("status")
-      .innerHTML =
-      "🎯 NICE! YOU GOT IT";
-
-
-
-
-    showPopup(
-      "🎉",
-      "CORRECT!",
-      "Boom! You cracked this one. Your UGC NET brain is warmed up!"
-    );
-
-
-  }
-
-
-
-
-  /* ===============================
-     WRONG
-  =============================== */
-
-
-  else{
-
-
-    document
-      .getElementById("lock")
-      .innerHTML = `
-
-
-        <div class="answerResult wrong">
-
-
-          🔴 NOT THIS TIME!
-
-
-          <br>
-
-
-          <small>
-            You chose ${selectedLetter}.
-            Correct answer: ${correctLetter}
-          </small>
-
-
-          <div class="explanation">
-
-
-            <strong>Correct Answer:</strong><br>
-
-
-            ${currentQuestion[1][correct]}
-
-
-            <br><br>
-
-
-            <strong>Why?</strong><br>
-
-
-            ${currentQuestion[3]}
-
-
-            <br><br>
-
-
-            <strong>Exam Tip:</strong><br>
-
-
-            ${currentQuestion[5]}
-
-
-          </div>
-
-
-        </div>
-
-
-      `;
-
-
-
-
-    document
-      .getElementById("status")
-      .innerHTML =
-      "🧠 CLOSE! KEEP GOING";
-
-
-
-
-    const remaining =
-      3 - used;
-
-
-
-
-    if(remaining > 0){
-
-
-      showPopup(
-        "😎",
-        "NOT THIS TIME!",
-        "No worries! You still have " +
-        remaining +
-        " challenge" +
-        (remaining > 1 ? "s" : "") +
-        " left. Shake it off and go again!"
-      );
-
-
-    }
-
-
-  }
-
-
-
-
-  /* ===============================
-     THIRD ATTEMPT
-  =============================== */
-
-
-  if(used >= 3){
-
-
-    setTimeout(()=>{
-
-
-      showFinal();
-
-
-    },1600);
-
-
-    return;
-
-
-  }
-
-
-
-
-  /* ===============================
-     NEXT CHALLENGE
-  =============================== */
-
-
-  questionActive = false;
-
-
-
-
-  document
-    .getElementById("spinBtn")
-    .disabled = false;
-
-
-
-
-  document
-    .getElementById("wheel")
-    .style.pointerEvents =
-    "auto";
-
-
-
-
-  document
-    .getElementById("wheelSide")
-    .style.transform =
-    "translateX(0) scale(1)";
-
-
-
-
-  document
-    .getElementById("status")
-    .innerHTML =
-    "⚡ NEXT CHALLENGE READY";
-
-
+ $('ugcFeedback').appendChild(box);
+ setText('ugcStatus',selected===correct?'🎯 NICE WORK':'🧠 KEEP LEARNING');
+ $('ugcNext').style.display='block';
+ $('ugcNext').textContent=used>=3?'GET YOUR QUESTIONS & ANSWERS PDF →':'NEXT CHALLENGE →';
 }
 
 
 
 
-/* =========================================
-   POPUP
-========================================= */
-
-
-function showPopup(
-  icon,
-  title,
-  text
-){
-
-
-  document
-    .getElementById("popupIcon")
-    .innerHTML =
-    icon;
+function finish(){
+ questionActive=false;
+ $('ugcGame').style.display='none';
+ $('ugcStatusBar').style.display='none';
+ $('ugcFinal').style.display='block';
 
 
 
 
-  document
-    .getElementById("popupTitle")
-    .innerHTML =
-    title;
-
-
-
-
-  document
-    .getElementById("popupText")
-    .innerHTML =
-    text;
-
-
-
-
-  document
-    .getElementById("answerPopup")
-    .style.display =
-    "flex";
-
-
+ for(let n=1;n<=3;n++){
+   $('ugcS'+n).className='step done';
+ }
 }
 
 
 
 
-/* =========================================
-   CLOSE POPUP
-========================================= */
+function next(){
+ if(!answered)return;
 
 
-function closePopup(){
 
 
-  document
-    .getElementById("answerPopup")
-    .style.display =
-    "none";
+ if(used>=3){
+   finish();
+   return;
+ }
 
 
+
+
+ questionActive=false;
+ $('ugcChoice').style.display='none';
+ $('ugcWheelSide').style.opacity='1';
+ $('ugcSpin').disabled=false;
+ $('ugcWheel').style.pointerEvents='auto';
+ setText('ugcStatus','⚡ NEXT CHALLENGE READY');
+ showChapters();
+ $('ugcChapterArea').style.display='block';
+ $('ugcQuestionArea').style.display='none';
 }
 
 
 
 
-/* =========================================
-   FINAL
-========================================= */
-
-
-function showFinal(){
-
-
-  closePopup();
+$('ugcSpin').addEventListener('click',spin);
+$('ugcWheel').addEventListener('click',spin);
+$('ugcNext').addEventListener('click',next);
 
 
 
 
-  document
-    .getElementById("game")
-    .style.display =
-    "none";
+$('ugcLeadForm').addEventListener('submit',async function(e){
+ e.preventDefault();
 
 
 
 
-  document
-    .getElementById("statusBar")
-    .style.display =
-    "none";
+ const msg=$('ugcMessage');
+ const btn=$('ugcSubmit');
+ const download=$('ugcDownload');
+ const name=$('ugcName').value.trim();
+ const mobile=$('ugcMobile').value.trim();
+ const email=$('ugcEmail').value.trim();
 
 
 
 
-  document
-    .getElementById("final")
-    .style.display =
-    "flex";
+ if(!/^[6-9]\d{9}$/.test(mobile)){
+   msg.style.color='#b91c1c';
+   msg.textContent='Please enter a valid 10-digit Indian mobile number.';
+   return;
+ }
 
 
 
 
-  document
-    .querySelectorAll(".step")
-    .forEach(x=>{
-
-
-      x.className =
-        "step done";
-
-
-    });
+ if(SHEETS_WEB_APP_URL.includes('PASTE_YOUR')){
+   msg.style.color='#b91c1c';
+   msg.textContent='Setup needed: add your deployed Google Apps Script Web App URL before publishing.';
+   return;
+ }
 
 
 
 
-  /* ===============================
-     FINAL SOUND + FIREWORKS
-  =============================== */
-
-
-  playFinalSound();
-
-
-  playFirework();
+ if(PDF_URL.includes('PASTE_YOUR')){
+   msg.style.color='#b91c1c';
+   msg.textContent='Setup needed: add your shareable PDF URL before publishing.';
+   return;
+ }
 
 
 
 
-  setTimeout(()=>{
-
-
-    playFirework();
-
-
-  },700);
+ btn.disabled=true;
+ btn.textContent='REGISTERING…';
+ msg.style.color='#334155';
+ msg.textContent='Submitting your registration…';
 
 
 
 
-  setTimeout(()=>{
+ try{
+   const payload={
+     name:name,
+     mobile:mobile,
+     email:email,
+     consent:true,
+     quiz:'UGC NET Commerce 3-Challenge Quiz',
+     score_note:'Completed 3 challenge attempts',
+     page_url:location.href,
+     submitted_at:new Date().toISOString()
+   };
 
 
-    playFirework();
 
 
-  },1400);
+   await fetch(SHEETS_WEB_APP_URL,{
+     method:'POST',
+     mode:'no-cors',
+     headers:{'Content-Type':'text/plain;charset=utf-8'},
+     body:JSON.stringify(payload)
+   });
 
 
 
 
-  showFireworks();
+   msg.style.color='#166534';
+   msg.textContent='Thank you! Your registration has been submitted. Your PDF is ready below.';
+   download.href=PDF_URL;
+   download.style.display='block';
+   download.setAttribute('download','UGC-NET-Commerce-Questions-and-Answers.pdf');
+   $('ugcLeadForm').style.display='none';
 
 
-}
 
 
+ }catch(err){
+   msg.style.color='#b91c1c';
+   msg.textContent='We could not submit your details. Please check your connection and try again.';
+   btn.disabled=false;
+   btn.textContent='REGISTER & GET PDF →';
+ }
+});
+})();
 </script>
-
-
 </div>
 
-</body>
-</html>
+
+
